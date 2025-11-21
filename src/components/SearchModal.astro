@@ -1,0 +1,204 @@
+---
+
+---
+
+<div
+    id="search-modal"
+    class="fixed inset-0 z-50 hidden"
+    role="dialog"
+    aria-modal="true"
+>
+    <!-- Backdrop -->
+    <div
+        class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        id="search-backdrop"
+    >
+    </div>
+
+    <!-- Modal -->
+    <div
+        class="relative min-h-screen px-4 pt-24 pb-20 text-center sm:block sm:p-0"
+    >
+        <div
+            class="inline-block w-full max-w-2xl my-8 overflow-hidden text-left align-middle transition-all transform shadow-2xl rounded-2xl glass-panel"
+        >
+            <!-- Search Input -->
+            <div class="relative border-b border-white/10">
+                <svg
+                    class="absolute top-5 left-6 w-6 h-6 text-text-muted"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input
+                    type="text"
+                    id="search-input"
+                    class="w-full h-16 pl-16 pr-6 bg-transparent text-text-main placeholder-text-muted focus:outline-none text-lg"
+                    placeholder="Buscar artículos..."
+                    autocomplete="off"
+                />
+                <div
+                    class="absolute top-5 right-6 text-xs text-text-muted border border-white/10 rounded px-2 py-1 hidden sm:block"
+                >
+                    ESC
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="search-results" class="max-h-[60vh] overflow-y-auto p-2">
+                <div class="p-8 text-center text-text-muted" id="search-empty">
+                    <p>Escribe para buscar...</p>
+                </div>
+                <ul class="space-y-1" id="results-list"></ul>
+            </div>
+
+            <!-- Footer -->
+            <div
+                class="px-6 py-4 bg-black/5 dark:bg-white/5 border-t border-white/10 text-xs text-text-muted flex justify-between items-center"
+            >
+                <span
+                    >Búsqueda por <span class="text-primary">Fuse.js</span
+                    ></span
+                >
+                <span class="flex gap-2">
+                    <kbd
+                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
+                        >↑</kbd
+                    >
+                    <kbd
+                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
+                        >↓</kbd
+                    >
+                    <span>para navegar</span>
+                    <kbd
+                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
+                        >↵</kbd
+                    >
+                    <span>para seleccionar</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    import Fuse from "fuse.js";
+
+    let fuse;
+    let posts = [];
+    const modal = document.getElementById("search-modal");
+    const input = document.getElementById("search-input");
+    const resultsList = document.getElementById("results-list");
+    const emptyState = document.getElementById("search-empty");
+    const backdrop = document.getElementById("search-backdrop");
+
+    // Fetch posts and initialize Fuse
+    async function initSearch() {
+        if (posts.length > 0) return;
+
+        try {
+            const res = await fetch("/search.json");
+            posts = await res.json();
+
+            fuse = new Fuse(posts, {
+                keys: [
+                    { name: "title", weight: 0.7 },
+                    { name: "description", weight: 0.5 },
+                    { name: "tags", weight: 0.3 },
+                ],
+                includeScore: true,
+                threshold: 0.4,
+            });
+        } catch (error) {
+            console.error("Error loading search index:", error);
+        }
+    }
+
+    function openModal() {
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        input.focus();
+        initSearch();
+    }
+
+    function closeModal() {
+        modal.classList.add("hidden");
+        document.body.style.overflow = "";
+        input.value = "";
+        renderResults([]);
+    }
+
+    function renderResults(results) {
+        resultsList.innerHTML = "";
+
+        if (results.length === 0) {
+            emptyState.classList.remove("hidden");
+            resultsList.classList.add("hidden");
+            if (input.value.trim() !== "") {
+                emptyState.innerHTML = "<p>No se encontraron resultados</p>";
+            } else {
+                emptyState.innerHTML = "<p>Escribe para buscar...</p>";
+            }
+            return;
+        }
+
+        emptyState.classList.add("hidden");
+        resultsList.classList.remove("hidden");
+
+        results.forEach((result, index) => {
+            const item = result.item;
+            const li = document.createElement("li");
+            li.innerHTML = `
+        <a href="/posts/${item.slug}" class="block p-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors group focus:bg-black/5 dark:focus:bg-white/10 focus:outline-none" tabindex="0">
+          <div class="flex justify-between items-start">
+            <h3 class="text-text-main font-medium group-hover:text-primary transition-colors">${item.title}</h3>
+            <span class="text-xs text-text-muted">${new Date(item.pubDate).toLocaleDateString("es-ES")}</span>
+          </div>
+          <p class="text-sm text-text-muted mt-1 line-clamp-1">${item.description}</p>
+        </a>
+      `;
+            resultsList.appendChild(li);
+        });
+    }
+
+    // Event Listeners
+    window.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+            e.preventDefault();
+            if (modal.classList.contains("hidden")) {
+                openModal();
+            } else {
+                closeModal();
+            }
+        }
+
+        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeModal();
+        }
+    });
+
+    backdrop?.addEventListener("click", closeModal);
+
+    input?.addEventListener("input", (e) => {
+        if (!fuse) return;
+        const query = e.target.value;
+
+        if (query.trim() === "") {
+            renderResults([]);
+            return;
+        }
+
+        const results = fuse.search(query);
+        renderResults(results);
+    });
+
+    // Open modal event for other components
+    window.addEventListener("open-search", openModal);
+</script>

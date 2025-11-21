@@ -1,0 +1,21 @@
+
+> awesome-altitude@0.0.1 build
+> astro build
+
+[2m11:38:32[22m [34m[content][39m Syncing content
+[2m11:38:32[22m [34m[content][39m Synced content
+[2m11:38:32[22m [34m[types][39m Generated [2m385ms[22m
+[2m11:38:32[22m [34m[build][39m output: [34m"static"[39m
+[2m11:38:32[22m [34m[build][39m mode: [34m"static"[39m
+[2m11:38:32[22m [34m[build][39m directory: [34mC:\Users\franc\OneDrive\PERSONAL\CODE\Blog-web3\dist\[39m
+[2m11:38:32[22m [34m[build][39m Collecting build info...
+[2m11:38:32[22m [34m[build][39m [32mÔ£ô Completed in 402ms.[39m
+[2m11:38:32[22m [34m[build][39m Building static entrypoints...
+11:38:32 [ERROR] [vite] Ô£ù Build failed in 460ms
+[@tailwindcss/vite:generate:build] Missing opening {
+file: C:/Users/franc/OneDrive/PERSONAL/CODE/Blog-web3/src/styles/global.css
+  Stack trace:
+    at Ce (file:///C:/Users/franc/OneDrive/PERSONAL/CODE/Blog-web3/node_modules/tailwindcss/dist/chunk-MEY3PWYT.mjs:1:2434)
+    at nu (file:///C:/Users/franc/OneDrive/PERSONAL/CODE/Blog-web3/node_modules/@tailwindcss/node/dist/index.mjs:10:3439)
+    at Object.transform (file:///C:/Users/franc/OneDrive/PERSONAL/CODE/Blog-web3/node_modules/@tailwindcss/vite/dist/index.mjs:1:2455)
+    at file:///C:/Users/franc/OneDrive/PERSONAL/CODE/Blog-web3/node_modules/rollup/dist/es/shared/node-entry.js:22451:40
