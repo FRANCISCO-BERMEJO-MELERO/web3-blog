@@ -11,21 +11,18 @@ const { title, description, pubDate, url, tags } = Astro.props;
 ---
 
 <article
-    class="group relative glass-panel rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 overflow-hidden"
+    class="group relative rounded-2xl p-[2px] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden bg-linear-to-br from-primary via-auxiliary to-accent"
 >
     <div
-        class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        class="relative flex flex-col h-full z-10 bg-(--color-bg-surface) rounded-2xl p-6"
     >
-    </div>
-
-    <div class="relative flex flex-col h-full z-10">
         <div class="mb-4">
             <div class="flex gap-2 mb-3 flex-wrap">
                 {
                     tags.map((tag) => (
                         <a
                             href={`/tags/${tag}`}
-                            class="relative z-20 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors border border-primary/20"
+                            class="relative z-20 text-xs text-gradient-tricolor font-semibold px-2.5 py-0.5 rounded-full bg-linear-to-r from-primary/10 to-auxiliary/10 text-primary hover:from-primary/20 hover:to-auxiliary/20 transition-all border border-primary/20"
                         >
                             #{tag}
                         </a>
@@ -59,7 +56,7 @@ const { title, description, pubDate, url, tags } = Astro.props;
             {description}
         </p>
         <div
-            class="text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all"
+            class="text-gradient-tricolor text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all"
         >
             Leer artículo <span>&rarr;</span>
         </div>

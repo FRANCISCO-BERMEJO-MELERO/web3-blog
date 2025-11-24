@@ -5,13 +5,14 @@ const navItems = [
 ];
 ---
 
-<header class="sticky top-0 z-50 glass-panel border-b">
+<header class="sticky top-0 z-50 glass-panel border-b-0 relative">
+  <div
+    class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-primary via-auxiliary to-accent"
+  >
+  </div>
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-    <a
-      href="/"
-      class="text-2xl font-bold text-primary hover:text-primary-hover transition-colors font-heading"
-    >
-      Web3Blog
+    <a href="/" class="text-2xl font-bold transition-colors font-heading">
+      <span class="text-gradient-tricolor">Web3Blog</span>
     </a>
     <nav class="flex items-center gap-6">
       <ul class="flex space-x-6">
