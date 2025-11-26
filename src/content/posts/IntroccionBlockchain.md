@@ -127,7 +127,7 @@ Supongamos que Ana quiere enviar 5 monedas a Marcos. El proceso es más largo y 
 
 Este proceso garantiza que cada copia del libro es idéntica a las demás.
 
-![Descripción de la imagen](/public/IntroccionBlockchain/validadores.png)
+![Descripción de la imagen](/IntroccionBlockchain/validadores.png)
 
 ---
 
@@ -144,7 +144,7 @@ Esto hacía casi imposible que alguien fabricara bloques fraudulentos más rápi
 
 Así es como funciona hoy Bitcoin: seguridad mediante dificultad computacional.
 
-![Descripción de la imagen](/public/IntroccionBlockchain/PoW.png)
+![Descripción de la imagen](/IntroccionBlockchain/PoW.png)
 
 ---
 
@@ -160,7 +160,7 @@ Entonces nació la **Prueba de Participación (PoS)**:
 
 Ethereum adoptó este modelo y, con él, un enfoque más sostenible y escalable.
 
-![Descripción de la imagen](/public/IntroccionBlockchain/PoS.png)
+![Descripción de la imagen](/IntroccionBlockchain/PoS.png)
 ---
 
 ## 🌐 ¿Por qué la blockchain importa tanto más allá de Valleclaro?  
