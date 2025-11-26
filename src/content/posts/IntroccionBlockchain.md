@@ -11,7 +11,7 @@ author: "Fran"
 ---
 
 ## ✨ Introducción  
-La tecnología **blockchain** se menciona en conferencias, redes sociales y reportajes, frecuentemente acompañada de conceptos como *descentralización*, *criptoeconomía*, *contratos inteligentes* o *Web3*. Sin embargo, para muchas personas sigue siendo un término difuso. ¿Es simplemente algo relacionado con Bitcoin? ¿Es una base de datos avanzada? ¿Es una nueva moda?  
+La tecnología **blockchain** se menciona en conferencias, redes sociales y reportajes, frecuentemente acompañada de conceptos como *descentralización*, *criptomonedas*, *contratos inteligentes* o *Web3*. Sin embargo, para muchas personas sigue siendo un término difuso. ¿Es simplemente algo relacionado con Bitcoin? ¿Es una base de datos avanzada? ¿Es una nueva moda?  
 La realidad es más profunda: blockchain es un modelo completamente distinto de gestionar información y confianza.
 
 Para comprender realmente su utilidad, más allá de la jerga técnica, contaremos una historia. Una historia más larga y detallada, que ilustra no solo *cómo* funciona, sino *por qué* existe.
