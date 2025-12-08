@@ -3,7 +3,7 @@ title: "¿Qué es la tecnología blockchain?"
 description: "Una introducción al mundo descentralizado y lo que nos espera."
 pubDate: 2025-11-24
 tags: ["web3", "blockchain", "intro"]
-author: "Fran"
+author: "Francisco Bermejo Melero"
 ---
 
 ## Una explicación seria… contada como una historia
