@@ -1,0 +1,17 @@
+# Web3 Blog - Francisco Bermejo
+
+Blog sobre Web3, Blockchain y Descentralización.
+
+## Description
+Este sitio contiene artículos técnicos y reflexiones sobre el ecosistema Web3, incluyendo tutoriales sobre IPFS, Ethereum, contratos inteligentes y la historia de las criptomonedas.
+
+## Core Content
+- [Que es IPFS](https://web3-blog-fran.vercel.app/posts/queesipfs)
+- [EOA vs Cuentas de Contrato](https://web3-blog-fran.vercel.app/posts/eoavscuentasdecontrato)
+- [Introducción a Blockchain](https://web3-blog-fran.vercel.app/posts/introccionblockchain)
+- [La Historia de Bitcoin](https://web3-blog-fran.vercel.app/posts/lahistoriadebitcoin)
+
+## Metadata
+- Author: Francisco Bermejo
+- Language: Spanish
+- Topics: Web3, Blockchain, Ethereum, IPFS, Smart Contracts
