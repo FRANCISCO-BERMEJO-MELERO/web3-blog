@@ -122,7 +122,7 @@ Esto permite que la red no sea monolítica: diferentes subnets compiten en difer
 
 ---
 
-## �💰 El incentivo: tokenizar la inteligencia  
+## 💰 El incentivo: tokenizar la inteligencia  
 Aquí está el punto clave:
 
 > En Bittensor, la inteligencia es un recurso económico.
