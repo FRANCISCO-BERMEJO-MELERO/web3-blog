@@ -4,86 +4,73 @@
 
 <div
     id="search-modal"
-    class="fixed inset-0 z-50 hidden"
+    class="fixed inset-0 z-[100] hidden items-start justify-center pt-[10vh] px-4 overflow-hidden"
     role="dialog"
     aria-modal="true"
 >
-    <!-- Backdrop -->
+    <!-- Backdrop: high blur for a luxury feel -->
     <div
-        class="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        class="fixed inset-0 bg-black/40 backdrop-blur-md transition-opacity"
         id="search-backdrop"
     >
     </div>
 
-    <!-- Modal -->
+    <!-- Modal: refined floating box -->
     <div
-        class="relative min-h-screen px-4 pt-24 pb-20 text-center sm:block sm:p-0"
+        class="relative w-full max-w-2xl bg-(--bg) border border-(--border) rounded-2xl overflow-hidden shadow-2xl animate-slide-up"
     >
+        <!-- Search Input Unit -->
         <div
-            class="inline-block w-full max-w-2xl my-8 overflow-hidden text-left align-middle transition-all transform shadow-2xl rounded-2xl glass-panel"
+            class="flex items-center gap-6 px-8 h-20 border-b border-(--border)"
         >
-            <!-- Search Input -->
-            <div class="relative border-b border-white/10">
-                <svg
-                    class="absolute top-5 left-6 w-6 h-6 text-text-muted"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                </svg>
-                <input
-                    type="text"
-                    id="search-input"
-                    class="w-full h-16 pl-16 pr-6 bg-transparent text-text-main placeholder-text-muted focus:outline-none text-lg"
-                    placeholder="Buscar artículos..."
-                    autocomplete="off"
-                />
-                <div
-                    class="absolute top-5 right-6 text-xs text-text-muted border border-white/10 rounded px-2 py-1 hidden sm:block"
-                >
-                    ESC
-                </div>
-            </div>
-
-            <!-- Results -->
-            <div id="search-results" class="max-h-[60vh] overflow-y-auto p-2">
-                <div class="p-8 text-center text-text-muted" id="search-empty">
-                    <p>Escribe para buscar...</p>
-                </div>
-                <ul class="space-y-1" id="results-list"></ul>
-            </div>
-
-            <!-- Footer -->
+            <svg
+                class="w-5 h-5 text-primary flex-shrink-0"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="3"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input
+                type="text"
+                id="search-input"
+                class="flex-1 bg-transparent text-(--text) placeholder-text-(--text-muted) focus:outline-none text-lg font-bold font-heading tracking-tight"
+                placeholder="Busca por título, tag o descripción..."
+                autocomplete="off"
+            />
             <div
-                class="px-6 py-4 bg-black/5 dark:bg-white/5 border-t border-white/10 text-xs text-text-muted flex justify-between items-center"
+                class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-(--border) bg-surface"
             >
                 <span
-                    >Búsqueda por <span class="text-primary">Fuse.js</span
-                    ></span
+                    class="text-[10px] font-bold text-(--text-muted) uppercase tracking-widest"
+                    >Esc</span
                 >
-                <span class="flex gap-2">
-                    <kbd
-                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
-                        >↑</kbd
-                    >
-                    <kbd
-                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
-                        >↓</kbd
-                    >
-                    <span>para navegar</span>
-                    <kbd
-                        class="font-sans bg-black/5 dark:bg-white/10 px-1.5 rounded"
-                        >↵</kbd
-                    >
-                    <span>para seleccionar</span>
-                </span>
             </div>
+        </div>
+
+        <!-- Result container -->
+        <div
+            id="search-results"
+            class="max-h-[65vh] overflow-y-auto p-4 md:p-8 space-y-4"
+        >
+            <div
+                class="px-2 pb-2 text-[10px] font-bold text-primary uppercase tracking-[0.2em]"
+                id="results-count-label"
+            >
+                Resultados destacados
+            </div>
+            <div
+                class="p-10 text-center text-(--text-muted) text-sm font-medium"
+                id="search-empty"
+            >
+                Empieza a escribir para filtrar los artículos...
+            </div>
+            <ul class="flex flex-col gap-3" id="results-list"></ul>
         </div>
     </div>
 </div>
@@ -98,15 +85,13 @@
     const resultsList = document.getElementById("results-list");
     const emptyState = document.getElementById("search-empty");
     const backdrop = document.getElementById("search-backdrop");
+    const label = document.getElementById("results-count-label");
 
-    // Fetch posts and initialize Fuse
     async function initSearch() {
         if (posts.length > 0) return;
-
         try {
             const res = await fetch("/search.json");
             posts = await res.json();
-
             fuse = new Fuse(posts, {
                 keys: [
                     { name: "title", weight: 0.7 },
@@ -122,83 +107,67 @@
     }
 
     function openModal() {
-        modal.classList.remove("hidden");
+        modal?.classList.replace("hidden", "flex");
         document.body.style.overflow = "hidden";
-        input.focus();
+        (input as HTMLInputElement).focus();
         initSearch();
     }
 
     function closeModal() {
-        modal.classList.add("hidden");
+        modal?.classList.replace("flex", "hidden");
         document.body.style.overflow = "";
-        input.value = "";
+        (input as HTMLInputElement).value = "";
         renderResults([]);
     }
 
     function renderResults(results) {
+        if (!resultsList || !emptyState || !label) return;
         resultsList.innerHTML = "";
 
         if (results.length === 0) {
             emptyState.classList.remove("hidden");
-            resultsList.classList.add("hidden");
-            if (input.value.trim() !== "") {
-                emptyState.innerHTML = "<p>No se encontraron resultados</p>";
-            } else {
-                emptyState.innerHTML = "<p>Escribe para buscar...</p>";
-            }
+            label.classList.add("hidden");
             return;
         }
 
         emptyState.classList.add("hidden");
-        resultsList.classList.remove("hidden");
+        label.classList.remove("hidden");
 
-        results.forEach((result, index) => {
+        results.forEach((result) => {
             const item = result.item;
             const li = document.createElement("li");
             li.innerHTML = `
-        <a href="/posts/${item.slug}" class="block p-4 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 transition-colors group focus:bg-black/5 dark:focus:bg-white/10 focus:outline-none" tabindex="0">
-          <div class="flex justify-between items-start">
-            <h3 class="text-text-main font-medium group-hover:text-primary transition-colors">${item.title}</h3>
-            <span class="text-xs text-text-muted">${new Date(item.pubDate).toLocaleDateString("es-ES")}</span>
+        <a href="/posts/${item.slug}" class="block px-6 py-5 rounded-2xl bg-surface border border-border hover:border-primary/50 hover:shadow-lg transition-all group">
+          <div class="flex justify-between items-baseline gap-4 mb-2">
+            <h3 class="text-base font-bold text-(--text) group-hover:text-primary transition-colors tracking-tight">${item.title}</h3>
+            <span class="text-[10px] font-mono font-bold text-primary opacity-50 uppercase tracking-widest">${new Date(item.pubDate).toLocaleDateString("es-ES", { month: "short", year: "numeric" })}</span>
           </div>
-          <p class="text-sm text-text-muted mt-1 line-clamp-1">${item.description}</p>
+          <p class="text-sm text-(--text-muted) line-clamp-1 opacity-80">${item.description}</p>
         </a>
       `;
             resultsList.appendChild(li);
         });
     }
 
-    // Event Listeners
     window.addEventListener("keydown", (e) => {
         if ((e.metaKey || e.ctrlKey) && e.key === "k") {
             e.preventDefault();
-            if (modal.classList.contains("hidden")) {
-                openModal();
-            } else {
-                closeModal();
-            }
+            modal?.classList.contains("hidden") ? openModal() : closeModal();
         }
-
-        if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-            closeModal();
-        }
+        if (e.key === "Escape") closeModal();
     });
 
     backdrop?.addEventListener("click", closeModal);
-
     input?.addEventListener("input", (e) => {
         if (!fuse) return;
-        const query = e.target.value;
-
+        const query = (e.target as HTMLInputElement).value;
         if (query.trim() === "") {
             renderResults([]);
             return;
         }
-
         const results = fuse.search(query);
         renderResults(results);
     });
 
-    // Open modal event for other components
     window.addEventListener("open-search", openModal);
 </script>

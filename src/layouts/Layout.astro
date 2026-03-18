@@ -2,6 +2,7 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import BaseHead from "../components/BaseHead.astro";
+import SearchModal from "../components/SearchModal.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -20,7 +21,6 @@ const {
     <head>
         <BaseHead title={title} description={description} />
         <script is:inline>
-            // Check for saved theme preference or default to dark
             const theme = (() => {
                 if (
                     typeof localStorage !== "undefined" &&
@@ -30,7 +30,6 @@ const {
                 }
                 return "dark";
             })();
-
             if (theme === "light") {
                 document.documentElement.classList.remove("dark");
             } else {
@@ -40,24 +39,27 @@ const {
         </script>
     </head>
     <body
-        class="min-h-screen flex flex-col selection:bg-primary/30 selection:text-primary antialiased"
+        class="min-h-screen flex flex-col font-sans selection:bg-(--primary)/20 selection:text-(--primary) antialiased overflow-x-hidden"
     >
-        <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+        <!-- Fondos de ambiente muy suaves (el toque chulo) -->
+        <div
+            class="fixed inset-0 z-[-1] pointer-events-none transition-colors duration-1000"
+        >
             <div
-                class="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[100px] -translate-y-1/2"
+                class="absolute top-[10%] left-[15%] w-[40rem] h-[30rem] bg-(--primary)/5 rounded-full blur-[100px]"
             >
             </div>
             <div
-                class="absolute bottom-0 right-1/4 w-96 h-96 bg-auxiliary/20 rounded-full blur-[100px] translate-y-1/2"
-            >
-            </div>
-            <div
-                class="absolute top-1/2 left-1/2 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"
+                class="absolute bottom-[20%] right-[10%] w-[30rem] h-[30rem] bg-(--accent)/5 rounded-full blur-[120px]"
             >
             </div>
         </div>
+
         <Header />
-        <main class="grow container mx-auto px-4 py-12">
+        <SearchModal />
+        <main
+            class="grow container mx-auto px-6 py-12 md:py-20 animate-fade-in"
+        >
             <slot />
         </main>
         <Footer />

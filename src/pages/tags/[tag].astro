@@ -10,9 +10,9 @@ export async function getStaticPaths() {
   ];
 
   return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) =>
-      post.data.tags.includes(tag),
-    );
+    const filteredPosts = allPosts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     return {
       params: { tag },
       props: { posts: filteredPosts },
@@ -24,41 +24,56 @@ const { tag } = Astro.params;
 const { posts } = Astro.props;
 ---
 
-<Layout title={`Etiqueta: ${tag}`}>
-  <div class="mb-12 pt-10">
-    <div class="flex items-center gap-4 mb-6">
+<Layout title={`#${tag} - Web3Blog`}>
+  <div class="mb-20 animate-slide-up">
+    <div class="flex items-center gap-3 mb-10">
       <a
         href="/"
-        class="p-2 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-text-muted hover:text-text-heading"
+        class="inline-flex items-center gap-1.5 text-xs font-bold text-primary tracking-widest uppercase hover:underline"
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
-        >
+        &larr; VOLVER AL INICIO
       </a>
-      <h1 class="text-4xl font-bold text-primary">
-        Artículos sobre <span class="text-secondary">#{tag}</span>
-      </h1>
     </div>
+
+    <div
+      class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/20 bg-primary/8 text-[11px] font-bold text-primary uppercase tracking-widest mb-6"
+    >
+      ETIQUETA FILTRADA
+    </div>
+
+    <h1
+      class="text-4xl md:text-6xl font-black font-heading tracking-tight mb-4"
+    >
+      Artículos sobre <span class="text-gradient">#{tag}</span>
+    </h1>
+
+    <p
+      class="text-xs font-bold text-[--text-muted] uppercase tracking-[0.2em] leading-loose opacity-60"
+    >
+      {posts.length}
+      {posts.length === 1 ? "artículo encontrado" : "artículos encontrados"}
+    </p>
   </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <!-- Identical Grid -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-8 animate-slide-up"
+    style="animation-delay: 0.1s;"
+  >
     {
-      posts.map((post) => (
-        <PostCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          url={`/posts/${post.slug}`}
-          tags={post.data.tags}
-        />
+      posts.map((post, i) => (
+        <div
+          style={`animation-delay: ${0.1 + 0.05 * i}s; animation-fill-mode: both;`}
+          class="animate-slide-up"
+        >
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            url={`/posts/${post.slug}`}
+            tags={post.data.tags}
+          />
+        </div>
       ))
     }
   </div>

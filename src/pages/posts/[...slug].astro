@@ -12,30 +12,38 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+
+// Calculate word count for better display
+const wordCount = post.body.split(/\s+/).length;
+const readingTime = Math.max(3, Math.ceil(wordCount / 200));
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-    <article class="max-w-3xl mx-auto mt-10">
-        <header class="mb-12 text-center">
-            <div class="flex justify-center gap-2 mb-6">
-                {
-                    post.data.tags.map((tag) => (
-                        <a
-                            href={`/tags/${tag}`}
-                            class="text-sm font-medium px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
-                        >
-                            #{tag}
-                        </a>
-                    ))
-                }
-            </div>
-            <h1
-                class="text-4xl md:text-5xl font-bold mb-6 text-text-main leading-tight font-heading"
+    <article class="max-w-screen-md mx-auto">
+        <!-- Breadcrumb meta -->
+        <a
+            href="/"
+            class="inline-flex items-center gap-2 text-xs font-mono text-(--text-muted) hover:text-primary transition-colors mb-10 group"
+        >
+            <svg
+                class="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2.5"
             >
-                {post.data.title}
-            </h1>
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+            </svg>
+            TODOS LOS ARTÍCULOS
+        </a>
+
+        <!-- Header Section -->
+        <header class="mb-16">
             <div
-                class="text-text-muted flex items-center justify-center gap-4 text-sm"
+                class="flex items-center gap-3 mb-6 font-mono text-[10px] font-bold text-primary tracking-[0.2em] uppercase"
             >
                 <time datetime={post.data.pubDate.toISOString()}>
                     {
@@ -46,15 +54,84 @@ const { Content } = await post.render();
                         })
                     }
                 </time>
-                <span class="w-1 h-1 bg-text-muted rounded-full"></span>
-                <span>{post.data.author}</span>
+                <span class="opacity-30">/</span>
+                <span>{readingTime} MIN DE LECTURA</span>
+            </div>
+
+            <h1
+                class="text-4xl md:text-5xl font-black font-heading tracking-tight mb-8 leading-tight"
+            >
+                {post.data.title}
+            </h1>
+
+            <div class="flex flex-wrap gap-3">
+                {
+                    post.data.tags.map((tag: string) => (
+                        <a
+                            href={`/tags/${tag}`}
+                            class="px-3 py-1.5 rounded-lg bg-surface border border-border text-xs font-bold text-(--text-muted) hover:border-primary/50 hover:text-primary transition-all"
+                        >
+                            #{tag}
+                        </a>
+                    ))
+                }
             </div>
         </header>
 
+        <!-- Main Content -->
         <div
-            class="prose prose-lg prose-custom max-w-none prose-img:rounded-xl"
+            class="prose prose-lg prose-custom max-w-none prose-img:rounded-3xl prose-img:border prose-img:border-border prose-code:text-primary prose-a:text-primary prose-a:no-underline prose-a:border-b-2 prose-a:border-primary/20 hover:prose-a:border-primary/60 transition-all"
         >
             <Content />
+        </div>
+
+        <!-- Final Footer and Author Bio -->
+        <div class="mt-24 pt-10 border-t border-border">
+            <div
+                class="flex flex-col md:flex-row items-center justify-between gap-10"
+            >
+                <div class="flex items-start gap-6">
+                    <div
+                        class="w-20 h-20 rounded-2xl bg-surface p-1 border border-border overflow-hidden rotate-2 transition-transform hover:rotate-0"
+                    >
+                        <img
+                            src="/foto.jpg"
+                            alt="Francisco Bermejo"
+                            class="w-full h-full object-cover rounded-xl"
+                        />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span
+                            class="text-xs font-bold text-primary tracking-widest uppercase opacity-60"
+                            >Escrito por</span
+                        >
+                        <h3
+                            class="text-2xl font-black font-heading tracking-tight"
+                        >
+                            {post.data.author}
+                        </h3>
+                        <p
+                            class="text-sm text-(--text-muted) leading-relaxed max-w-sm"
+                        >
+                            Full Stack Web3 Developer especializado en Solidity,
+                            Rust y el diseño de identidades digitales
+                            descentralizadas.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <a
+                        href="https://linkedin.com/in/francisco-bermejo-melero-250669302/"
+                        class="p-4 rounded-2xl bg-surface border border-border hover:border-primary/50 group flex items-center justify-center transition-all"
+                    >
+                        <span
+                            class="text-xs font-bold opacity-60 group-hover:opacity-100 uppercase tracking-widest"
+                            >LinkedIn Profile</span
+                        >
+                    </a>
+                </div>
+            </div>
         </div>
     </article>
 </Layout>

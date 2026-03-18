@@ -8,57 +8,92 @@ interface Props {
 }
 
 const { title, description, pubDate, url, tags } = Astro.props;
+
+// Estimate reading time (avg 200 words/min)
+const wordCount = description.split(/\s+/).length;
+const readingTime = Math.max(3, Math.ceil(wordCount / 5));
 ---
 
-<article
-    class="group relative rounded-2xl p-[2px] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden bg-linear-to-br from-primary via-auxiliary to-accent"
->
-    <div
-        class="relative flex flex-col h-full z-10 bg-(--color-bg-surface) rounded-2xl p-6"
-    >
-        <div class="mb-4">
-            <div class="flex gap-2 mb-3 flex-wrap">
-                {
-                    tags.map((tag) => (
-                        <a
-                            href={`/tags/${tag}`}
-                            class="relative z-20 text-xs text-gradient-tricolor font-semibold px-2.5 py-0.5 rounded-full bg-linear-to-r from-primary/10 to-auxiliary/10 text-primary hover:from-primary/20 hover:to-auxiliary/20 transition-all border border-primary/20"
-                        >
-                            #{tag}
-                        </a>
-                    ))
-                }
-            </div>
-            <h2
-                class="text-xl font-bold mb-2 text-text-main group-hover:text-primary transition-colors font-heading"
-            >
-                <a href={url}>
-                    <span class="absolute inset-0 z-10"></span>
-                    {title}
-                </a>
-            </h2>
+<article class="group h-full flex flex-col relative card-premium">
+    <div class="flex flex-col h-full bg-transparent">
+        <!-- Meta and Tags -->
+        <div class="flex items-center justify-between mb-4">
             <time
                 datetime={pubDate.toISOString()}
-                class="text-sm text-text-muted"
+                class="text-xs font-mono text-(--text-muted)"
             >
                 {
                     pubDate.toLocaleDateString("es-ES", {
                         year: "numeric",
-                        month: "long",
+                        month: "short",
                         day: "numeric",
                     })
                 }
             </time>
+            <div class="flex gap-2">
+                {
+                    tags
+                        .slice(0, 1)
+                        .map((tag) => (
+                            <span class="text-[10px] font-bold text-primary uppercase tracking-widest px-2 py-1 rounded-md bg-primary/5 border border-primary/10">
+                                {tag}
+                            </span>
+                        ))
+                }
+            </div>
         </div>
+
+        <!-- Title -->
+        <h2
+            class="text-xl font-bold font-heading mb-3 group-hover:text-primary transition-colors leading-tight"
+        >
+            <a href={url}>
+                <span class="absolute inset-0 z-10 rounded-[20px]"></span>
+                {title}
+            </a>
+        </h2>
+
+        <!-- Description -->
         <p
-            class="text-text-muted line-clamp-3 mb-6 flex-grow text-sm leading-relaxed"
+            class="text-sm text-(--text-muted) line-clamp-2 mt-auto mb-6 leading-relaxed"
         >
             {description}
         </p>
+
+        <!-- Footer row -->
         <div
-            class="text-gradient-tricolor text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all"
+            class="flex items-center justify-between mt-auto pt-4 border-t border-(--border)"
         >
-            Leer artículo <span>&rarr;</span>
+            <span
+                class="text-xs font-medium text-(--text-muted) flex items-center gap-1.5 opacity-60"
+            >
+                <svg
+                    class="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                >
+                    <circle cx="12" cy="12" r="10"></circle><polyline
+                        points="12 6 12 12 16 14"></polyline>
+                </svg>
+                {readingTime} min
+            </span>
+            <span
+                class="text-xs font-bold text-primary group-hover:translate-x-1 transition-transform inline-flex items-center gap-1"
+            >
+                Leer <svg
+                    class="w-3.5 h-3.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    ><line x1="5" y1="12" x2="19" y2="12"></line><polyline
+                        points="12 5 19 12 12 19"></polyline></svg
+                >
+            </span>
         </div>
     </div>
 </article>

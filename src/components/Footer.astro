@@ -2,16 +2,23 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative mt-20 py-8 glass-panel border-t-0 ">
-  <div
-    class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-primary via-auxiliary to-accent"
-  >
-  </div>
-  <div class="container mx-auto px-4 text-center text-text-muted text-sm">
-    <p>&copy; {year} Web3Blog. Built for learning purposes.</p>
-    <div class="mt-4 flex justify-center gap-4">
-      <a href="https://github.com/FRANCISCO-BERMEJO-MELERO" class="hover:text-[#0077B6] transition-all duration-300 hover:scale-110">GitHub</a>
-      <a href="https://www.linkedin.com/in/francisco-bermejo-melero-250669302/" class="hover:text-[#0077B6] transition-all duration-300 hover:scale-110">LinkedIn</a>
+<footer class="mt-20 py-10 border-t border-(--border)">
+  <div class="container mx-auto px-6 text-center text-(--text-muted) text-xs">
+    <div class="flex items-center justify-center gap-6 mb-4">
+      <a href="/" class="hover:text-(--text) transition-colors">Inicio</a>
+      <a
+        href="https://github.com/FRANCISCO-BERMEJO-MELERO"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-(--text) transition-colors">GitHub</a
+      >
+      <a
+        href="https://linkedin.com/in/francisco-bermejo-melero-250669302/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-(--text) transition-colors">LinkedIn</a
+      >
     </div>
+    <p>&copy; {year} Web3Blog.</p>
   </div>
 </footer>
