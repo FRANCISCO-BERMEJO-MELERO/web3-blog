@@ -109,7 +109,7 @@ En función de esas puntuaciones, se distribuyen recompensas.
 
 ---
 
-## �️ Subnets: especialización en la red  
+## 🧬 Subnets: especialización en la red  
 Uno de los conceptos más importantes de Bittensor son las **subnets** (subredes).
 
 Cada subnet es una red especializada en un dominio concreto:
